@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import Button from "../StyledComponents/Button";
 
 type CounterType = {
   count: number;
@@ -16,11 +17,12 @@ type CounterUpdateActionType = {
 type CounterActionType = CounterUpdateActionType | CounterResetActionType;
 
 export default function Counter() {
+  // Counter Reducer Setup
   const initialCount: CounterType = {
     count: 0,
   };
   const counterReducer = (state: CounterType, action: CounterActionType) => {
-    console.log(action.payload);
+    console.log(action);
     switch (action.type) {
       case "increase":
         return { count: state.count + action.payload.count };
@@ -35,46 +37,58 @@ export default function Counter() {
 
   const [count, dispatchCount] = useReducer(counterReducer, initialCount);
 
+  // Event Handlers
+  const increaseCount = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    increaseBy: number
+  ) => {
+    console.log(event.target);
+    dispatchCount({ type: "increase", payload: { count: increaseBy } });
+  };
+  const decreaseCount = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    decreaseBy: number
+  ) => {
+    console.log(event.target);
+    dispatchCount({ type: "decrease", payload: { count: decreaseBy } });
+  };
+
   return (
     <section>
-      <p className="text-3xl font-bold">{count.count}</p>
+      <h1 className="text-3xl">{count.count}</h1>
       <div>
-        <button
-          onClick={(): void =>
-            dispatchCount({ payload: { count: 1 }, type: "increase" })
+        <Button
+          onClick={(e: React.MouseEvent<HTMLButtonElement>): void =>
+            increaseCount(e, 1)
           }
-          className="bg-emerald-600 p-4 mx-2 rounded-md"
         >
           Increase
-        </button>
-        <button
-          onClick={(): void =>
-            dispatchCount({ payload: { count: 1 }, type: "decrease" })
+        </Button>
+        <Button
+          onClick={(e: React.MouseEvent<HTMLButtonElement>): void =>
+            decreaseCount(e, 1)
           }
-          className="bg-emerald-600 p-4 mx-2 rounded-md"
         >
           Decrease
-        </button>
+        </Button>
       </div>
       <div>
-        <button
-          onClick={(): void =>
-            dispatchCount({ payload: { count: 5 }, type: "increase" })
+        <Button
+          onClick={(e: React.MouseEvent<HTMLButtonElement>): void =>
+            increaseCount(e, 5)
           }
-          className="text-zinc-50 bg-emerald-600 p-4 mx-2 rounded-md"
         >
           Increase by 5
-        </button>
-        <button
-          onClick={(): void =>
-            dispatchCount({ payload: { count: 5 }, type: "decrease" })
+        </Button>
+        <Button
+          onClick={(e: React.MouseEvent<HTMLButtonElement>): void =>
+            decreaseCount(e, 5)
           }
-          className="text-zinc-50 bg-emerald-600 p-4 mx-2 rounded-md"
         >
           Decrease by 5
-        </button>
+        </Button>
       </div>
-      <button onClick={() => dispatchCount({ type: "reset" })}>Reset</button>
+      <Button onClick={() => dispatchCount({ type: "reset" })}>Reset</Button>
     </section>
   );
 }
