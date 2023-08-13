@@ -12,7 +12,8 @@ type UserContextProps = {
 	setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const UserContext = createContext<UserContextProps | null>(null);
+//const UserContext = createContext<UserContextProps | null>(null);
+const UserContext = createContext({} as UserContextProps);
 
 export {UserContext}
 
