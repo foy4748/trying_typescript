@@ -1,18 +1,21 @@
-import { useState } from "react";
 import "./App.css";
 import Counter from "./Components/Counter";
+import Dashboard from "./Components/Dashboard";
+import UserContextProvider from "./Contexts/UserContext";
 import MainLayout from "./StyledComponents/Layouts/MainLayout";
 
 function App() {
-  const [count, setCount] = useState(0);
 
-  return (
-    <>
-      <MainLayout>
-        <Counter />
-      </MainLayout>
-    </>
-  );
+	return (
+		<>
+			<UserContextProvider>
+				<MainLayout>
+					<Counter />
+					<Dashboard />
+				</MainLayout>
+			</UserContextProvider>
+		</>
+	);
 }
 
 export default App;
